@@ -8,7 +8,7 @@
 <body>
     <div class="container">
         <h2 class="page-header">lottery</h2>
-        <button class="btn btn-prime" id="btn">draw</button>
+        <button class="btn btn-primary" id="btn">draw</button>
     </div>
     <script>
         function rand(m, n){
@@ -20,17 +20,17 @@
                 setTimeout(()=>{
                     const n = rand(1, 100)
                     if(n <= 30){
-                        resolve()
+                        resolve(n)
                     }else {
-                        reject()
+                        reject(n)
                     }
                 },1000)
             })
 
-            p.then(()=>{
-                alert('success')
-            },()=>{
-                alert('fail')
+            p.then((value)=>{
+                alert('success ' + value)
+            },(reason)=>{
+                alert('fail ' + reason)
             })
         })
     </script>
