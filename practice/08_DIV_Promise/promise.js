@@ -5,7 +5,7 @@ const rejected = 'rejected'
 function Promise(executor){
     this.promiseState = pending
     this.promiseResult = null
-    this.callback = {}
+    this.callbacks = []
 
     const self = this
 
@@ -13,16 +13,18 @@ function Promise(executor){
         if(self.promiseState !== pending) return
         self.promiseState = fulfilled
         self.promiseResult = data
-        if (self.callback.onResolved)
-            self.callback.onResolved(data)
+        self.callbacks.forEach(item => {
+            item.onResolved(data)
+        })
     }
 
     function reject(data){
         if(self.promiseState !== pending) return
         self.promiseState = rejected
         self.promiseResult = data
-        if (self.callback.onRejected)
-            self.callback.onRejected(data)
+        self.callbacks.forEach(item => {
+            item.onRejected(data)
+        })
     }
 
     try{
@@ -38,9 +40,9 @@ Promise.prototype.then = function (onResolved, onRejected){
     if(this.promiseState === rejected)
         onRejected(this.promiseResult)
     if(this.promiseState === pending){
-        this.callback = {
-            onResolved: onResolved,
-            onRejected: onRejected
-        }
+        this.callbacks.push({
+            onResolved,
+            onRejected
+        })
     }
 }
