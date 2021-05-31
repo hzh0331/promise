@@ -35,14 +35,30 @@ function Promise(executor){
 }
 
 Promise.prototype.then = function (onResolved, onRejected){
-    if(this.promiseState === fulfilled)
-        onResolved(this.promiseResult)
-    if(this.promiseState === rejected)
-        onRejected(this.promiseResult)
-    if(this.promiseState === pending){
-        this.callbacks.push({
-            onResolved,
-            onRejected
-        })
-    }
+    return new Promise((resolve, reject)=>{
+        if(this.promiseState === fulfilled){
+            try{
+                let result = onResolved(this.promiseResult)
+                if(result instanceof Promise){
+                    result.then(v=>{
+                        resolve(v)
+                    },r=>{
+                        reject(r)
+                    })
+                }else{
+                    resolve(result)
+                }
+            }catch (e){
+                reject(e)
+            }
+        }
+        if(this.promiseState === rejected)
+            onRejected(this.promiseResult)
+        if(this.promiseState === pending){
+            this.callbacks.push({
+                onResolved,
+                onRejected
+            })
+        }
+    })
 }

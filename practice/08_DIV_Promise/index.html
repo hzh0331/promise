@@ -8,24 +8,25 @@
 <body>
   <script>
     let p = new Promise((resolve, reject)=>{
-        setTimeout(()=>{
-            // resolve('OK')
-            reject('error')
-        }, 2000)
-        // resolve('OK')
+        // setTimeout(()=>{
+        //     // resolve('OK')
+        //     reject('error')
+        // }, 2000)
+        resolve('OK')
         // reject('error')
         // throw 'ERROR'
     })
 
-    p.then(
+    const res = p.then(
         value => console.log(value),
         reason => console.warn(reason)
     )
+    console.log(res)
 
-    p.then(
-        value => alert(value),
-        reason => alert(reason)
-    )
+    // p.then(
+    //     value => alert(value),
+    //     reason => alert(reason)
+    // )
   </script>
 </body>
 </html>
