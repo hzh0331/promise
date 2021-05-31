@@ -15,7 +15,13 @@
       return new Promise((resolve, reject)=>{
         resolve('success')
       })
-    }).then(value => console.log(value))
+    }).then(
+            value => {throw 'error'}
+    ).then(
+            value => console.log(value)
+    ).catch(
+            err => console.warn(err)
+    )
   </script>
 </body>
 </html>
