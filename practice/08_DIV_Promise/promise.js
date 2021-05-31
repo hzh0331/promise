@@ -102,3 +102,21 @@ Promise.reject = function (value){
         reject(value)
     })
 }
+
+Promise.all = function (promises){
+    return new Promise((resolve, reject) =>{
+        let arr = []
+        let count = 0;
+        for(let i = 0; i < promises.length; i++){
+            promises[i].then(v=>{
+                count++;
+                arr[i] = v;
+                if(count === promises.length){
+                    resolve(arr)
+                }
+            }, r=>{
+                reject(r)
+            })
+        }
+    })
+}

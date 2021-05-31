@@ -23,15 +23,24 @@
     // )
     // console.log(res)
 
-    const p = Promise.resolve(new Promise((resolve, reject)=>{
-       reject("error")
-    }))
-    console.log(p)
+    // const p = Promise.resolve(new Promise((resolve, reject)=>{
+    //    reject("error")
+    // }))
+    // console.log(p)
 
     // p.then(
     //     value => alert(value),
     //     reason => alert(reason)
     // )
+
+    const p1 = new Promise((resolve, reject)=>{
+        resolve("this is p1")
+    })
+
+    const p2 = Promise.reject("this is p2")
+    const p3 = Promise.resolve("this is p3")
+
+    console.log(Promise.all([p1, p2, p3]))
   </script>
 </body>
 </html>
