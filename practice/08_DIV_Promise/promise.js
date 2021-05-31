@@ -4,7 +4,7 @@ function Promise(executor){
     self = this
     function resolve(data){
         if(self.promiseState !== 'pending') return
-        self.promiseState = 'fullfilled'
+        self.promiseState = 'fulfilled'
         self.promiseResult = data
     }
 
@@ -22,5 +22,8 @@ function Promise(executor){
 }
 
 Promise.prototype.then = function (onResolved, onRejected){
-
+    if(this.promiseState === 'fulfilled')
+        onResolved(this.promiseResult)
+    if(this.promiseState === 'rejected')
+        onRejected(this.promiseResult)
 }

@@ -8,11 +8,15 @@
 <body>
   <script>
     const p = new Promise((resolve, reject)=>{
-        resolve('OK')
-        reject('error')
-        // throw 'error'
+        // resolve('OK')
+        // reject('error')
+        throw 'ERROR'
     })
-    console.log(p)
+
+    p.then(
+        value => console.log(value),
+        reason => console.warn(reason)
+    )
   </script>
 </body>
 </html>
