@@ -16,6 +16,8 @@
         resolve('success')
       })
     }).then(
+            value => {return new Promise(()=>{})}
+    ).then(
             value => {throw 'error'}
     ).then(
             value => console.log(value)
