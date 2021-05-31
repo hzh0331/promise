@@ -7,21 +7,26 @@
 </head>
 <body>
   <script>
-    let p = new Promise((resolve, reject)=>{
-        // setTimeout(()=>{
-        //     // resolve('OK')
-        //     reject('error')
-        // }, 2000)
-        resolve('OK')
-        // reject('error')
-        // throw 'ERROR'
-    })
+    // let p = new Promise((resolve, reject)=>{
+    //     // setTimeout(()=>{
+    //     //     // resolve('OK')
+    //     //     reject('error')
+    //     // }, 2000)
+    //     resolve('OK')
+    //     // reject('error')
+    //     // throw 'ERROR'
+    // })
+    //
+    // const res = p.then(
+    //     value => console.log(value),
+    //     reason => console.warn(reason)
+    // )
+    // console.log(res)
 
-    const res = p.then(
-        value => console.log(value),
-        reason => console.warn(reason)
-    )
-    console.log(res)
+    const p = Promise.resolve(new Promise((resolve, reject)=>{
+       reject("error")
+    }))
+    console.log(p)
 
     // p.then(
     //     value => alert(value),
