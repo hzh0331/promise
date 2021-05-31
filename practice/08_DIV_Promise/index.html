@@ -34,13 +34,15 @@
     // )
 
     const p1 = new Promise((resolve, reject)=>{
-        resolve("this is p1")
+        setTimeout(()=>{
+            resolve("this is p1")
+        },2000)
     })
 
-    const p2 = Promise.reject("this is p2")
+    const p2 = Promise.resolve("this is p2")
     const p3 = Promise.resolve("this is p3")
 
-    console.log(Promise.all([p1, p2, p3]))
+    console.log(Promise.race([p1, p2, p3]))
   </script>
 </body>
 </html>
