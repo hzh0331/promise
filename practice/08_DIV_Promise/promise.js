@@ -12,7 +12,11 @@ function Promise(executor){
         self.promiseResult = data
     }
 
-    executor(resolve, reject)
+    try{
+        executor(resolve, reject)
+    }catch (e) {
+        reject(e)
+    }
 }
 
 Promise.prototype.then = function (onResolved, onRejected){
