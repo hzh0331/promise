@@ -1,17 +1,28 @@
+const pending = 'pending'
+const fulfilled = 'fulfilled'
+const rejected = 'rejected'
+
 function Promise(executor){
-    this.promiseState = 'pending'
+    this.promiseState = pending
     this.promiseResult = null
-    self = this
+    this.callback = {}
+
+    const self = this
+
     function resolve(data){
-        if(self.promiseState !== 'pending') return
-        self.promiseState = 'fulfilled'
+        if(self.promiseState !== pending) return
+        self.promiseState = fulfilled
         self.promiseResult = data
+        if (self.callback.onResolved)
+            self.callback.onResolved(data)
     }
 
     function reject(data){
-        if(self.promiseState !== 'pending') return
-        self.promiseState = 'rejected'
+        if(self.promiseState !== pending) return
+        self.promiseState = rejected
         self.promiseResult = data
+        if (self.callback.onRejected)
+            self.callback.onRejected(data)
     }
 
     try{
@@ -22,8 +33,14 @@ function Promise(executor){
 }
 
 Promise.prototype.then = function (onResolved, onRejected){
-    if(this.promiseState === 'fulfilled')
+    if(this.promiseState === fulfilled)
         onResolved(this.promiseResult)
-    if(this.promiseState === 'rejected')
+    if(this.promiseState === rejected)
         onRejected(this.promiseResult)
+    if(this.promiseState === pending){
+        this.callback = {
+            onResolved: onResolved,
+            onRejected: onRejected
+        }
+    }
 }
