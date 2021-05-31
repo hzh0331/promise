@@ -37,9 +37,9 @@ function Promise(executor){
 Promise.prototype.then = function (onResolved, onRejected){
     const self = this
     return new Promise((resolve, reject)=>{
-        if(this.promiseState === fulfilled){
+        function callback(func){
             try{
-                let result = onResolved(this.promiseResult)
+                let result = func(self.promiseResult)
                 if(result instanceof Promise){
                     result.then(v=>{
                         resolve(v)
@@ -53,41 +53,18 @@ Promise.prototype.then = function (onResolved, onRejected){
                 reject(e)
             }
         }
+        if(this.promiseState === fulfilled){
+            callback(onResolved)
+        }
         if(this.promiseState === rejected)
-            onRejected(this.promiseResult)
+            callback(onRejected)
         if(this.promiseState === pending){
             this.callbacks.push({
                 onResolved : function (){
-                    try{
-                        let result = onResolved(self.promiseResult)
-                        if(result instanceof Promise){
-                            result.then(v=>{
-                                resolve(v)
-                            },r=>{
-                                reject(r)
-                            })
-                        }else{
-                            resolve(self.promiseResult)
-                        }
-                    }catch (e){
-                        reject(e)
-                    }
+                    callback(onResolved)
                 },
                 onRejected : function (){
-                    try{
-                        let result = onRejected(self.promiseResult)
-                        if(result instanceof Promise){
-                            result.then(v=>{
-                                resolve(v)
-                            }, r=>{
-                                reject(r)
-                            })
-                        }else{
-                            resolve(self.promiseResult)
-                        }
-                    }catch (e){
-                        reject(e)
-                    }
+                    callback(onRejected)
                 }
             })
         }
