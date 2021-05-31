@@ -37,6 +37,14 @@ function Promise(executor){
 Promise.prototype.then = function (onResolved, onRejected){
     const self = this
     return new Promise((resolve, reject)=>{
+        if (typeof onRejected !== 'function'){
+            onRejected = reject => {throw reject}
+        }
+
+        if (typeof onResolved !== 'function'){
+            onResolved = value => value
+        }
+
         function callback(func){
             try{
                 let result = func(self.promiseResult)
@@ -69,4 +77,8 @@ Promise.prototype.then = function (onResolved, onRejected){
             })
         }
     })
+}
+
+Promise.prototype.catch = function (onRejected){
+    return this.then(undefined, onRejected)
 }
